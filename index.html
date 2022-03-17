@@ -1,0 +1,354 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Masterarbeit - Mike Wunderlich</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/serif.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+    <!-- own Style -->
+    <link rel="stylesheet" href="assets/css/style.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+        <!-- titlePage -->
+				<section class="titlePage">
+          <aside class="notes">
+            Shhh, these are your private notes 📝
+          </aside>
+          <div class="header">
+            <a rel="noopener" target="_blank" href="https://www.hs-anhalt.de/hochschule-anhalt/architektur-facility-management-und-geoinformation/uebersicht.html">
+              <img src="assets/img/Logo_HSA.png">
+            </a>
+            <div>
+              <span>Hochschule Anhalt</span><br>
+              Anhalt University of Applied Sciences<br>
+              <br>
+              <span>Fachbereich Architektur, Facility Management und Geoinformation</span><br>
+              <br>
+              <span>Institut für Geoinformation und Vermessung</span>
+            </div>
+          </div>
+          <h1>Technischer Vergleich von Cloud Optimized GeoTIFFs mit bewährten OGC-Standards wie dem WMS, WMTS oder TMS im Bereich WebGIS</h1>
+          <div class="author">Mike Wunderlich</div>
+				</section>
+
+        <!-- outline -->
+				<section>
+          <h2>Gliederung</h2>
+          <ul>
+            <li>Einleitung</li>
+            <li>Standards</li>
+            <li>Datenverarbeitung</li>
+            <li>Datenbereistellung</li>
+            <li>Nutzung der Daten (WebGIS)</li>
+            <li>Methodik</li>
+            <li>Ergebnisse</li>
+            <li>Zusammenfassung</li>
+          </ul>
+				</section>
+
+        <!-- introduction -->
+				<section class="introduction">
+          <h2>Einleitung</h2>
+          <div class="r-stretch">
+            <div style="top:0; left:0; transform: rotate(-2deg)" class="fragment">
+              <img src="assets/img/introduction_google.png" width="700"><img>
+              <p>Google Maps</p>
+            </div>
+            <div style="top:50px; right:0; transform: rotate(5deg)" class="fragment">
+              <img src="assets/img/introduction_geoportal-bw.png" width="750"><img>
+              <p>Geoportal-BW</p>
+            </div>
+            <div style="bottom:25px; left:250px; transform: rotate(-5deg);" class="fragment">
+              <img src="assets/img/introduction_fairFleet.png" width="700"><img>
+              <p>FairFleet</p>
+            </div>
+          </div>
+				</section>
+
+        <!-- standards -->
+				<section class="standards">
+          <section>
+            <h2>Standards</h2>
+            <div class="r-stack" style="position: relative; height: calc(100% - 85px);">
+              <div class="fragment fade-in" style="position: absolute; top: 80px; left:50px">
+                <img src="assets/img/standards_OGC.png" width="500px" style="margin: 0;">
+                <p class="fragment fade-in" style="margin: -70px 0 0 0;">TMS<span class="fragment fade-in"><br>WMS</span><span class="fragment fade-in"><br>WMTS</span></p>
+              </div>
+              <div class="fragment fade-in" style="position: absolute; top: 73px; right:50px;">
+                <img src="assets/img/standards_COG_logo.png" width="300px" style="margin: 0;">
+                <p style="margin: -15px 0 0 0;">COG</p>
+              </div>
+              
+            </div>
+          </section>
+          <section>
+            <h3>Tile Matrix Set <small>(TMS)</small></h3> 
+            <div class="r-stack">
+              <img class="fragment fade-in"  src="assets/img/standards_TMS_tileMatrix.png">
+              <img class="fragment fade-in" src="assets/img/standards_TMS_tileMatrixSet.png" style="background: #F0F1EB;">
+            </div>
+          </section>
+          <section class="wms">
+            <h3>Web Map Service <small fragment fade-in>(WMS)</small></h3>
+            <div class="r-stack">
+              <img class="fragment fade-in" src="assets/img/standards_WMS_flow-browser.png" width="600px">
+              <img class="fragment fade-in" src="assets/img/standards_WMS_flow-geoserver.png" width="600px">
+              <img class="fragment fade-in" src="assets/img/standards_WMS_flow-request.png" width="600px">
+              <img class="fragment fade-in" src="assets/img/standards_WMS_flow-response.png" width="600px">
+              <div class="fragment fade-in" style="width:100%; padding: 35px 0; background: #F0F1EB;">
+                <pre><code class="r-stretch" data-line-numbers="1-11|1|2-4|5-7|8-10|11">https://geoserver.masterarbeit-cog.de/ows?
+SERVICE=WMS&
+VERSION=1.3.0&
+REQUEST=GetMap&
+LAYERS=wms:ortho_strenzfeld&
+STYLES=&
+CRS=EPSG:3857&
+BBOX=1299642,6765837,1304883,6769892&
+WIDTH=768&
+HEIGHT=490&
+FORMAT=image/png</code></pre>
+              </div>
+              <img class="fragment fade-in" src="assets/img/standards_WMS_flow-image-trans.png" width="768px" style="padding: 0 90px; background: #F0F1EB;">
+            </div>
+          </section>
+
+          <section>
+            <h3>Web Map Tile Service <small>(WMTS)</small></h3>
+            <div class="r-stack">
+              <img class="fragment fade-in" src="assets/img/standards_WMTS_flow.png" width="600px">
+              <div class="fragment fade-in" style="width:100%; padding: 35px 0; background: #F0F1EB;">
+                <pre><code class="r-stretch" data-line-numbers="1-11|1|2-4|5-8|9-11">https://geoserver.masterarbeit-cog.de/gwc/service/wmts?
+Service=WMTS&
+Version=1.0.0&
+Request=GetTile&
+layer=wmts:ortho_strenzfeld&
+style=&
+tilematrixset=WebMercatorQuad&
+Format=image/vnd.jpeg-png&
+TileMatrix=15&
+TileCol=17447&
+TileRow=10849</code></pre>
+              </div>
+              <img class="fragment fade-in" src="assets/img/standards_WMTS_flow-image.png" width="256px" style="padding: 50px 325px; background: #F0F1EB;">
+            </div>
+          </section>
+          
+          <section>
+            <h3>Cloud Optimized GeoTIFF <small>(COG)</small></h3>
+            <div class="r-stack" style="position: relative; height: calc(100% - 85px);">
+              <img class="fragment fade-in" style="position: absolute; top:150px; left: 50px;" src="assets/img/standards_COG_readingTiff.png" width="350px">
+              <img class="fragment fade-in" style="position: absolute; top:150px; right: 50px;" src="assets/img/standards_COG_readingCOG.png" width="350px">
+              <img class="fragment fade-in" style="background: #F0F1EB;; padding: 0 35px;" src="assets/img/standards_COG_overviews-1.png" width="800px">
+              <img class="fragment fade-in" src="assets/img/standards_COG_overviews-2.png" width="800px">
+            </div>
+          </section>
+				</section>
+
+        <!-- dataProcessing -->
+				<section>
+          <section>
+            <h2>Datenverarbeitung</h2>
+
+            <div class="r-stack" style="position: relative; height: calc(100% - 85px);">
+              <img class="fragment fade-in" style="position: absolute; top:300px; left: 50px;" src="assets/img/dataProcessing_QGIS.png" width="350px">
+              <img class="fragment fade-in" style="position: absolute; top:40px; right: 50px;" src="assets/img/dataProcessing_gdal.png" width="350px">
+              
+            </div>
+          </section>
+          <section>
+            <h3>TMS</h3>
+Anzahl der Threads
+cat /proc/cpuinfo | grep processor | wc -l
+
+            gdal2tiles.py --zoom=0-20 -s EPSG:3857 --processes=24 ./Ortho.tif ./Ortho-TMS/
+
+MultiResolution
+gdal2tiles.py -p mercator -s EPSG:3857 -z 0-20 --processes=24
+    ./../000_inputData/ortho_lindenrain.tif ./tms/ortho_lindenrain-multi/ ; \
+gdal2tiles.py -p mercator -s EPSG:3857 -z 21 --processes=24
+    ./../000_inputData/ortho_lindenrain.tif ./tms/ortho_lindenrain-multi/ ; \
+gdal2tiles.py -p mercator -s EPSG:3857 -z 22 --processes=24
+    ./../000_inputData/ortho_lindenrain.tif ./tms/ortho_lindenrain-multi/ ; \
+gdal2tiles.py -p mercator -s EPSG:3857 -z 23 --processes=24
+    ./../000_inputData/ortho_lindenrain.tif ./tms/ortho_lindenrain-multi/
+          </section>
+          <section>
+            <h3>WMS / WMTS</h3>
+          </section>
+          <section>
+            <h3>COG</h3>
+          </section>
+				</section>
+
+        <!-- dataProvision -->
+				<section>
+          <section>
+            <h2>Datenbereistellung</h2>
+          </section>
+          <section>
+            <h3>TMS / COG<br><small>FileServer</small></h3>
+          </section>
+          <section>
+            <h3>WMS / WMTS<br><small>GeoServer</small></h3>
+          </section>
+				</section>
+
+        <!-- dataProcessing -->
+				<section class="dataProcessing">
+          <section>
+            <h2>Nutzung der Daten</h2>
+          </section>
+          <section class="minimalWebGIS">
+            <h3>Minimal WebGIS</h3>
+            <p>HTML:</p>
+            <pre><code><div id="map" style="height: 100%; width: 100%;"></div></code></pre>
+            <p class="fragment" data-fragment-index="1">TypeScript:</p>
+            <pre class="fragment" data-fragment-index="1"><code class="r-stretch" data-line-numbers="1-15|1-4|6-15|7-9|10-13|14">import Map from 'ol/Map';
+import View from 'ol/View';
+import OSM from 'ol/source/OSM';
+import TileLayer from 'ol/layer/Tile';
+
+const map = new Map({
+  layers: [
+    new TileLayer({source: new OSM()})
+  ],
+  view: new View({
+    center: [0, 0],
+    zoom: 2
+  }),
+  target: 'map'
+});</code></pre>
+          </section>
+          <section>
+            <h3>TMS</h3>
+            <pre><code class="r-stretch" data-line-numbers="1-13|1-2|4-13|5|6|7-12|8|9-11">import TileLayer from 'ol/layer/Tile';
+import XYZ from 'ol/source/XYZ';
+
+const TMS = new TileLayer({
+  extent: [1299642, 6765838, 1304883, 6769892],
+  preload: Infinity,
+  source: new XYZ({
+    attributions: 'Institut für Geoinformation und Vermessung (IGV), Hochschule Anhalt',
+    minZoom: 0,
+    maxZoom: 21,
+    url: 'https://data.masterarbeit-cog.de/tms/ortho_strenzfeld/{z}/{x}/{-y}.png'
+  }),
+})</code></pre>
+          </section>
+          <section>
+            <h3>WMS</h3>
+            <pre><code class="r-stretch" data-line-numbers="1-13|1-2|4-14|5|6-12|7|8-10|11">import Image as ImageLayer from 'ol/layer';
+import ImageWMS from 'ol/source/ImageWMS';
+
+const wms = new ImageLayer({
+  extent: [1299642, 6765838, 1304883, 6769892],
+  source: new ImageWMS({
+    attributions: 'Institut für Geoinformation und Vermessung (IGV), Hochschule Anhalt',
+    url: 'https://geoserver.masterarbeit-cog.de/wms',
+    params: {'LAYERS': 'wms:dsm_strenzfeld'},
+    serverType: 'geoserver',
+    ratio: 1,
+  }),
+});</code></pre>
+          </section>
+          <section data-visibility="hidden">
+            <h3>WMTS - Vorbereiten</h3>
+            <pre><code code class="r-stretch" data-line-numbers="">import {get as getProjection} from 'ol/proj';
+import {getTopLeft, getWidth} from 'ol/extent'; 
+  
+const projection = getProjection('EPSG:3857');
+const projectionExtent = projection.getExtent();
+const size = getWidth(projectionExtent) / 256;
+const resolutions = new Array(22);
+const matrixIds = new Array(22);
+for (let z = 0; z < 22; ++z) {
+  // generate resolutions and matrixIds arrays for this WMTS
+  resolutions[z] = size / Math.pow(2, z);
+  matrixIds[z] = z;
+}</code></pre>
+          </section>
+          <section>
+            <h3>WMTS</h3>
+            <pre><code code class="r-stretch" data-line-numbers="1-21|1-3|5-21|6|7-20|8|9-13|14-19">import TileLayer from 'ol/layer/Tile';
+import WMTS from 'ol/source/WMTS';
+import WMTSTileGrid from 'ol/tilegrid/WMTS';
+
+const WMTSLayer = new TileLayer({
+  extent: [1299642, 6765838, 1304883, 6769892],
+  source: new WMTS({
+    attributions: 'Institut für Geoinformation und Vermessung (IGV), Hochschule Anhalt',
+    url: 'https://geoserver.masterarbeit-cog.de/gwc/service/wmts',
+    layer: 'wmts:ortho_strenzfeld',
+    matrixSet: 'WebMercatorQuad',
+    format: 'image/vnd.jpeg-png',
+    style: '',
+    projection: projection,
+    tileGrid: new WMTSTileGrid({
+      origin: getTopLeft(projectionExtent),
+      resolutions: resolutions,
+      matrixIds: matrixIds,
+    }),
+  }),
+});</code></pre>
+          </section>
+          <section>
+            <h3>COG</h3>
+            <pre><code code class="r-stretch" data-line-numbers="1-13|1-2|4-13|4-12|5-11|6-10|8|13">import GeoTIFF from 'ol/source/GeoTIFF';
+import TileLayer from 'ol/layer/WebGLTile';
+
+const COGLayer = new TileLayer({
+  source: new GeoTIFF({
+    sources: [
+      {
+        url: 'https://data.masterarbeit-cog.de/cog/ortho_lindenrain.tif'
+      },
+    ],
+  })
+})
+COGLayer.getSource().setAttributions('Institut für Geoinformation und Vermessung (IGV), Hochschule Anhalt');
+            </code></pre>
+          </section>
+				</section>
+
+
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				center: false,
+				hash: true,
+				preloadIframes: false,
+				slideNumber: true,
+
+				dependencies : [
+					// Chart.min.js
+					{ src: 'plugin/chartjs/Chart.min.js'},
+					// the plugin
+					{ src: 'plugin/chartjs/charted.js'}
+				],
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
