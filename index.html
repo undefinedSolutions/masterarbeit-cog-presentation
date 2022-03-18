@@ -22,9 +22,6 @@
 
         <!-- titlePage -->
 				<section class="titlePage">
-          <aside class="notes">
-            Shhh, these are your private notes 📝
-          </aside>
           <div class="header">
             <a rel="noopener" target="_blank" href="https://www.hs-anhalt.de/hochschule-anhalt/architektur-facility-management-und-geoinformation/uebersicht.html">
               <img src="assets/img/Logo_HSA.png">
@@ -51,7 +48,7 @@
             <li>Datenverarbeitung</li>
             <li>Datenbereistellung</li>
             <li>Nutzung der Daten (WebGIS)</li>
-            <li>Methodik</li>
+            <li>Gewichtete Matrix</li>
             <li>Ergebnisse</li>
             <li>Zusammenfassung</li>
           </ul>
@@ -59,18 +56,24 @@
 
         <!-- introduction -->
 				<section class="introduction">
+          <aside class="notes">
+            Überall werden Daten benötigt Daten<br>
+            Google Maps - Hintergrundkarte <br>
+            GeoPortal-BW - Informationen hier Flurstücke <br>
+            FairFleet Full Service Provider - Dachinspektion
+          </aside>
           <h2>Einleitung</h2>
           <div class="r-stretch">
-            <div style="top:0; left:0; transform: rotate(-2deg)" class="fragment">
-              <img src="assets/img/introduction_google.png" width="700"><img>
+            <div style="top:0; left:0; transform: rotate(-2deg)" class="fragment fade-in">
+              <img src="assets/img/introduction_google.png" width="700">
               <p>Google Maps</p>
             </div>
-            <div style="top:50px; right:0; transform: rotate(5deg)" class="fragment">
-              <img src="assets/img/introduction_geoportal-bw.png" width="750"><img>
+            <div style="top:50px; right:0; transform: rotate(5deg)" class="fragment fade-in">
+              <img src="assets/img/introduction_geoportal-bw.png" width="750">
               <p>Geoportal-BW</p>
             </div>
-            <div style="bottom:25px; left:250px; transform: rotate(-5deg);" class="fragment">
-              <img src="assets/img/introduction_fairFleet.png" width="700"><img>
+            <div style="bottom:25px; left:250px; transform: rotate(-5deg);" class="fragment fade-in">
+              <img src="assets/img/introduction_fairFleet.png" width="700">
               <p>FairFleet</p>
             </div>
           </div>
@@ -78,21 +81,29 @@
 
         <!-- standards -->
 				<section class="standards">
+          <aside class="notes">
+            3 OGC Standards<br>
+            Cloud Optimized GeoTIFF
+          </aside>
           <section>
             <h2>Standards</h2>
             <div class="r-stack" style="position: relative; height: calc(100% - 85px);">
-              <div class="fragment fade-in" style="position: absolute; top: 80px; left:50px">
+              <div class="fragment fade-in" style="position: absolute; top: 80px; left:0">
                 <img src="assets/img/standards_OGC.png" width="500px" style="margin: 0;">
-                <p class="fragment fade-in" style="margin: -70px 0 0 0;">TMS<span class="fragment fade-in"><br>WMS</span><span class="fragment fade-in"><br>WMTS</span></p>
+                <p class="fragment fade-in" style="margin: -70px 0 0 0;">Tile Matrix Set<span class="fragment fade-in"><br>Web Map Service</span><span class="fragment fade-in"><br>Web Map Tile Service</span></p>
               </div>
-              <div class="fragment fade-in" style="position: absolute; top: 73px; right:50px;">
+              <div class="fragment fade-in" style="position: absolute; top: 73px; right:0;">
                 <img src="assets/img/standards_COG_logo.png" width="300px" style="margin: 0;">
-                <p style="margin: -15px 0 0 0;">COG</p>
+                <p style="margin: -15px 0 0 0;">Cloud Optimized GeoTIFF</p>
               </div>
               
             </div>
           </section>
           <section>
+            <aside class="notes">
+              Ansammlung einzelner Tiles in einer Tile Matrix<br>
+              1 Tile Matrix ist eine spezifische Zoomstufe - viele Tile Matrix -> Tile Matrix Set
+            </aside>
             <h3>Tile Matrix Set <small>(TMS)</small></h3> 
             <div class="r-stack">
               <img class="fragment fade-in"  src="assets/img/standards_TMS_tileMatrix.png">
@@ -100,6 +111,10 @@
             </div>
           </section>
           <section class="wms">
+            <aside class="notes">
+              Komponenten Browser + GeoServer
+              Kommunikation WMS-Request und WMS-Response
+            </aside>
             <h3>Web Map Service <small fragment fade-in>(WMS)</small></h3>
             <div class="r-stack">
               <img class="fragment fade-in" src="assets/img/standards_WMS_flow-browser.png" width="600px">
@@ -107,17 +122,18 @@
               <img class="fragment fade-in" src="assets/img/standards_WMS_flow-request.png" width="600px">
               <img class="fragment fade-in" src="assets/img/standards_WMS_flow-response.png" width="600px">
               <div class="fragment fade-in" style="width:100%; padding: 35px 0; background: #F0F1EB;">
-                <pre><code class="r-stretch" data-line-numbers="1-11|1|2-4|5-7|8-10|11">https://geoserver.masterarbeit-cog.de/ows?
+                <pre><code class="r-stretch" data-line-numbers="1-11|1|2-4|5-8|9-11|">https://geoserver.masterarbeit-cog.de/ows?
 SERVICE=WMS&
 VERSION=1.3.0&
 REQUEST=GetMap&
 LAYERS=wms:ortho_strenzfeld&
 STYLES=&
 CRS=EPSG:3857&
+FORMAT=image/png
 BBOX=1299642,6765837,1304883,6769892&
 WIDTH=768&
 HEIGHT=490&
-FORMAT=image/png</code></pre>
+</code></pre>
               </div>
               <img class="fragment fade-in" src="assets/img/standards_WMS_flow-image-trans.png" width="768px" style="padding: 0 90px; background: #F0F1EB;">
             </div>
@@ -145,6 +161,10 @@ TileRow=10849</code></pre>
           </section>
           
           <section>
+            <aside class="notes">
+              Lesen von GeoTIFFs Zeilen vs Tiles<br>
+              Übersichten
+            </aside>
             <h3>Cloud Optimized GeoTIFF <small>(COG)</small></h3>
             <div class="r-stack" style="position: relative; height: calc(100% - 85px);">
               <img class="fragment fade-in" style="position: absolute; top:150px; left: 50px;" src="assets/img/standards_COG_readingTiff.png" width="350px">
@@ -161,60 +181,136 @@ TileRow=10849</code></pre>
             <h2>Datenverarbeitung</h2>
 
             <div class="r-stack" style="position: relative; height: calc(100% - 85px);">
-              <img class="fragment fade-in" style="position: absolute; top:300px; left: 50px;" src="assets/img/dataProcessing_QGIS.png" width="350px">
-              <img class="fragment fade-in" style="position: absolute; top:40px; right: 50px;" src="assets/img/dataProcessing_gdal.png" width="350px">
+              <div class="fragment fade-in" style="position: absolute; top:300px; left: 50px;">
+                <img src="assets/img/dataProcessing_QGIS.png" width="350px"><br>
+                Version 3.22.3 Białowieża
+              </div>
+
+              <div class="fragment fade-in" style="position: absolute; top:40px; right: 50px;">
+                <img src="assets/img/dataProcessing_gdal.png" width="350px"><br>
+                Version 3.4.1
+              </div>
               
             </div>
           </section>
           <section>
             <h3>TMS</h3>
-Anzahl der Threads
-cat /proc/cpuinfo | grep processor | wc -l
+            <div class="r-stack">
+            <div class="fragment fade-in" style="width:100%;background: #F0F1EB; position:absolute; top:80px;">
+              Anzahl der Threads
+              <pre><code class="r-stretch" data-line-numbers="">cat /proc/cpuinfo | grep processor | wc -l</code></pre>
+            </div>
+            <div class="fragment fade-in" style="position:absolute;top:225px;width:100%;background: #F0F1EB;">
+              Processing
+              <pre><code class="r-stretch" data-line-numbers="">gdal2tiles.py
+--zoom=0-23
+-s EPSG:3857
+--processes=24
+./Ortho.tif
+./Ortho-TMS/</code></pre>
+            </div>
 
-            gdal2tiles.py --zoom=0-20 -s EPSG:3857 --processes=24 ./Ortho.tif ./Ortho-TMS/
 
-MultiResolution
-gdal2tiles.py -p mercator -s EPSG:3857 -z 0-20 --processes=24
-    ./../000_inputData/ortho_lindenrain.tif ./tms/ortho_lindenrain-multi/ ; \
+            <div class="fragment fade-in" style="width:100%;background: #F0F1EB; padding: 0 0 115px;">
+              MultiResolution Processing
+              <pre><code class="r-stretch" data-line-numbers="">gdal2tiles.py -p mercator -s EPSG:3857 -z 0-20 --processes=24
+  ./Ortho.tif ./Ortho-TMS/ ; \
 gdal2tiles.py -p mercator -s EPSG:3857 -z 21 --processes=24
-    ./../000_inputData/ortho_lindenrain.tif ./tms/ortho_lindenrain-multi/ ; \
+  ./Ortho.tif ./Ortho-TMS/ ; \
 gdal2tiles.py -p mercator -s EPSG:3857 -z 22 --processes=24
-    ./../000_inputData/ortho_lindenrain.tif ./tms/ortho_lindenrain-multi/ ; \
+  ./Ortho.tif ./Ortho-TMS/ ; \
 gdal2tiles.py -p mercator -s EPSG:3857 -z 23 --processes=24
-    ./../000_inputData/ortho_lindenrain.tif ./tms/ortho_lindenrain-multi/
+  ./Ortho.tif ./Ortho-TMS/
+                </code></pre>
+                </div>
+              </div>
           </section>
+
           <section>
             <h3>WMS / WMTS</h3>
+          <div class="fragment fade-in" style="width:100%;background: #F0F1EB;">
+            <pre><code class="r-stretch" data-line-numbers="">gdal_translate
+./DSM.tif
+./wms/DSM.tif
+-co TILED=YES
+-co COPY_SRC_OVERVIEWS=YES
+-co COMPRESS=DEFLATE</code></pre></div>
           </section>
+
           <section>
             <h3>COG</h3>
+            <div class="fragment fade-in" style="width:100%;background: #F0F1EB;">
+              <pre><code class="r-stretch" data-line-numbers="">gdal_translate
+./Ortho.tif
+./cog/Ortho.tif
+-of COG
+-co COMPRESS=DEFLATE
+-co NUM_THREADS=ALL_CPUS</code></pre></div>
+
           </section>
 				</section>
 
         <!-- dataProvision -->
 				<section>
           <section>
+            <aside class="notes">
+              Amazon skaliert, weit verbreitet, transparente Abrechnungen<br>
+              S3 Datenablage <br>
+              EC2 Root-Server -> Geoserver
+            </aside>
             <h2>Datenbereistellung</h2>
-          </section>
+
+            <div class="r-stack" style="position: relative; height: calc(100% - 85px);">
+              <div class="fragment fade-in" style="position: absolute; top:0; left: 245px;" >
+                <img src="assets/img/dataProvision_aws-logo.svg" width="250px">
+                <p style="margin: -30px 0 0;">Amazon Web Services (AWS)</p>
+              </div>
+              <div class="fragment fade-in" style="width: 50%;position: absolute; top:250px; left: 0;" >
+                <img src="assets/img/dataProvision_s3-logo.svg" width="200px">
+                <p style="margin: -30px 0 0;">Simple Storage Service (S3)</p>
+              </div>
+              <div class="fragment fade-in" style="width: 50%;position: absolute; top:250px; right: 0;" >
+                <img src="assets/img/dataProvision_ec2-logo.svg" width="200px">
+                <p style="margin: -30px 0 0;">Elastic Compute Cloud (EC2)</p>
+              </div>
+              <div class="fragment fade-in" style="width: 50%;position: absolute;top: 240px;right: 0;height: 275px;background: #f0f1ebab; padding: 40px 0 0;" >
+                <img src="assets/img/dataProvision_GeoServer-logo.svg" width="400px">
+                <p style="margin: -30px 0 0;">Geoserver</p>
+              </div>
+            </div>
+          </section><!-- 
           <section>
-            <h3>TMS / COG<br><small>FileServer</small></h3>
+            <h3>TMS / COG<br><small>FileServer | S3</small></h3>
           </section>
           <section>
             <h3>WMS / WMTS<br><small>GeoServer</small></h3>
-          </section>
+          </section> -->
 				</section>
 
-        <!-- dataProcessing -->
-				<section class="dataProcessing">
+        <!-- dataUsage -->
+				<section>
           <section>
             <h2>Nutzung der Daten</h2>
+
+            <div class="r-stack" style="position: relative; height: calc(100% - 85px);">
+              <div class="fragment fade-in">
+                <img src="assets/img/dataUsage_ol-logo.png" width="300">
+                <p style="margin: -70px 0 0 0;">v6.12.0</p>
+              </div>
+              <div class="fragment fade-in" style="background: #f0f1eb;top:0; width:300px;height:300px;">
+                <iframe style="position: absolute;top: 0;left: 0;width: 49%;height: 45%;" data-src="https://openlayers.masterarbeit-cog.de/cog/dsm_lindenrain"></iframe>
+                <iframe style="position: absolute;top: 0;left: 51%;width: 49%;height: 45%;" data-src="https://openlayers.masterarbeit-cog.de/cog/dsm_strenzfeld"></iframe>
+                <iframe style="position: absolute;top: 47%;left: 0;width: 49%;height: 45%;" data-src="https://openlayers.masterarbeit-cog.de/cog/ortho_lindenrain"></iframe>
+                <iframe style="position: absolute;top: 47%;left: 51%;width: 49%;height: 45%;" data-src="https://openlayers.masterarbeit-cog.de/cog/ortho_strenzfeld"></iframe>
+              </div>
+            </div>
           </section>
           <section class="minimalWebGIS">
             <h3>Minimal WebGIS</h3>
             <p>HTML:</p>
             <pre><code><div id="map" style="height: 100%; width: 100%;"></div></code></pre>
-            <p class="fragment" data-fragment-index="1">TypeScript:</p>
-            <pre class="fragment" data-fragment-index="1"><code class="r-stretch" data-line-numbers="1-15|1-4|6-15|7-9|10-13|14">import Map from 'ol/Map';
+            <p class="fragment fade-in" data-fragment-index="1">TypeScript:</p>
+            <pre class="fragment fade-in" data-fragment-index="1"><code class="r-stretch" data-line-numbers="1-15|1-4|6-15|7-9|10-13|14">import Map from 'ol/Map';
 import View from 'ol/View';
 import OSM from 'ol/source/OSM';
 import TileLayer from 'ol/layer/Tile';
@@ -321,6 +417,389 @@ COGLayer.getSource().setAttributions('Institut für Geoinformation und Vermessun
           </section>
 				</section>
 
+        <section>
+          <h2>Gewichtete Matrix</h2>
+          <div class="r-stack" style="position: relative; height: calc(100% - 130px);">
+            <ul>
+              <li class="fragment fade-in">Datenaufarbeitung (Dauer)</li>
+              <li class="fragment fade-in">Datenbereitstellung (Dauer)</li>
+              <li class="fragment fade-in">Datenabruf (Dauer)</li>
+              <li class="fragment fade-in">Datenbereitstellung (Kosten)</li>
+              <li class="fragment fade-in">Visualisierung (durch den Nutzer)</li>
+              <li class="fragment fade-in">Rasterwerte abfragen (durch den Nutzer)</li>
+              <li class="fragment fade-in">Interoperabilität (der Standards)</li>
+            </ul>
+          </div>
+        </section>
+
+        <section>
+          <section>
+            <h2>Ergebnisse</h2>
+
+            <div class="r-stack" style="position: relative; height: calc(100% - 85px);">
+              <iframe class="fragment fade-in" data-fragment-index="1" style="position:absolute; top:0;width:100%; height:250px; z-index: 1;" src="http://localhost:8000/assets/charts/dataGenerationTimeWorkstation.html"></iframe>
+              <iframe class="fragment fade-in" data-fragment-index="2" style="position:absolute; top:250px;width:100%; height:250px; z-index: 1;" src="http://localhost:8000/assets/charts/dataGenerationTimeNotebook.html"></iframe>
+            </div>
+          </section>
+          <section>
+            <h2>Ergebnisse</h2>
+            <div class="r-stack" style="position: relative; height: calc(100% - 85px);">
+              <iframe class="fragment fade-in" data-fragment-index="3" style="position:absolute; top:0;width:100%; height:250px; z-index: 3;" src="http://localhost:8000/assets/charts/dataNetworkTime.html"></iframe>
+              <iframe class="fragment fade-in" data-fragment-index="4" style="position:absolute; top:250px;width:100%; height:250px; z-index: 3;" src="http://localhost:8000/assets/charts/dataNetworkSize.html"></iframe>
+            </div>
+          </section>
+          <section>
+            <h3>Gewichtete Matrix mit einheits Faktor</h3>
+            <table class="tabelle">
+              <tr>
+                <th>Kriterium</th>
+                <th>Faktor</th>
+                <th>TMS</th>
+                <th>WMS</th>
+                <th>WMTS</th>
+                <th>COG</th>
+              </tr>
+              <tr class="fragment fade-in">
+                <td class="test">Datenaufarbeitung (Dauer)</td>
+                <td class="data">1</td>
+                <td class="data">3</td>
+                <td class="data">9</td>
+                <td class="data">9</td>
+                <td class="data">6</td>
+              </tr>
+              <tr class="fragment fade-in">
+                <td class="test">Datenbereitstellung (Dauer)</td>
+                <td class="data">1</td>
+                <td class="data">3</td>
+                <td class="data">6</td>
+                <td class="data">6</td>
+                <td class="data">9</td>
+              </tr>
+              <tr class="fragment fade-in">
+                <td class="test">Datenabruf (Dauer)</td>
+                <td class="data">1</td>
+                <td class="data">9</td>
+                <td class="data">3</td>
+                <td class="data">9</td>
+                <td class="data">6</td>
+              </tr>
+              <tr class="fragment fade-in">
+                <td class="test">Datenbereitstellung (Kosten)</td>
+                <td class="data">1</td>
+                <td class="data">9</td>
+                <td class="data">3</td>
+                <td class="data">3</td>
+                <td class="data">9</td>
+              </tr>
+              <tr class="fragment fade-in">
+                <td class="test">Visualisierung (durch den Nutzer)</td>
+                <td class="data">1</td>
+                <td class="data">0</td>
+                <td class="data">6</td>
+                <td class="data">6</td>
+                <td class="data">9</td>
+              </tr>
+              <tr class="fragment fade-in">
+                <td class="test">Rasterwerte abfragen (durch den Nutzer)</td>
+                <td class="data">1</td>
+                <td class="data">0</td>
+                <td class="data">6</td>
+                <td class="data">6</td>
+                <td class="data">9</td>
+              </tr>
+              <tr class="fragment fade-in">
+                <td class="test">Interoperabilität (der Standards)</td>
+                <td class="data">1</td>
+                <td class="data">0</td>
+                <td class="data">6</td>
+                <td class="data">6</td>
+                <td class="data">9</td>
+              </tr>
+              <tr class="fragment fade-in">
+                <td colspan="2">Gesamtwert</td>
+                <td class="data">24</td>
+                <td class="data">39</td>
+                <td class="data">45</td>
+                <td class="data">57</td>
+              </tr>
+            </table>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Zusammenfassung</h2>
+            <ul>
+              <li class="fragment fade-in">Unterschiedlichste Anwendungsfälle</li>
+              <ul>
+                <li class="fragment fade-in">Referenzprojekt eines Drohnenpiloten</li>
+                <li class="fragment fade-in">Datenprovider</li>
+                <li class="fragment fade-in">Tiefbau-Dokumentation</li>
+              </ul>
+            </ul>
+          </section>
+          
+          <section>
+            <h3>Referenzprojekt eines Drohnenpiloten</h3>
+            <table class="tabelle">
+              <tr>
+                <th>Kriterium</th>
+                <th>Faktor</th>
+                <th>TMS</th>
+                <th>WMS</th>
+                <th>WMTS</th>
+                <th>COG</th>
+              </tr>
+              <tr>
+                <td class="test">Datenaufarbeitung (Dauer)</td>
+                <td class="data">1</td>
+                <td class="data">3</td>
+                <td class="data">9</td>
+                <td class="data">9</td>
+                <td class="data">6</td>
+              </tr>
+              <tr>
+                <td class="test">Datenbereitstellung (Dauer)</td>
+                <td class="data">1</td>
+                <td class="data">3</td>
+                <td class="data">6</td>
+                <td class="data">6</td>
+                <td class="data">9</td>
+              </tr>
+              <tr>
+                <td class="test">Datenabruf (Dauer)</td>
+                <td class="data">6</td>
+                <td class="data">54</td>
+                <td class="data">18</td>
+                <td class="data">54</td>
+                <td class="data">36</td>
+              </tr>
+              <tr>
+                <td class="test">Datenbereitstellung (Kosten)</td>
+                <td class="data">9</td>
+                <td class="data">81</td>
+                <td class="data">27</td>
+                <td class="data">27</td>
+                <td class="data">81</td>
+              </tr>
+              <tr>
+                <td class="test">Visualisierung (durch den Nutzer)</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+              </tr>
+              <tr>
+                <td class="test">Rasterwerte abfragen (durch den Nutzer)</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+              </tr>
+              <tr>
+                <td class="test">Interoperabilität (der Standards)</td>
+                <td class="data">1</td>
+                <td class="data">0</td>
+                <td class="data">6</td>
+                <td class="data">6</td>
+                <td class="data">9</td>
+              </tr>
+              <tr>
+                <td colspan="2">Gesamtwert</td>
+                <td class="data">141</td>
+                <td class="data">60</td>
+                <td class="data">96</td>
+                <td class="data">132</td>
+              </tr>
+            </table>
+          </section>
+          
+          <section>
+            <h3>Datenprovider</h3>
+            <table class="tabelle">
+              <tr>
+                <th>Kriterium</th>
+                <th>Faktor</th>
+                <th>TMS</th>
+                <th>WMS</th>
+                <th>WMTS</th>
+                <th>COG</th>
+              </tr>
+              <tr>
+                <td class="test">Datenaufarbeitung (Dauer)</td>
+                <td class="data">9</td>
+                <td class="data">27</td>
+                <td class="data">81</td>
+                <td class="data">81</td>
+                <td class="data">54</td>
+              </tr>
+              <tr>
+                <td class="test">Datenbereitstellung (Dauer)</td>
+                <td class="data">6</td>
+                <td class="data">18</td>
+                <td class="data">36</td>
+                <td class="data">36</td>
+                <td class="data">54</td>
+              </tr>
+              <tr>
+                <td class="test">Datenabruf (Dauer)</td>
+                <td class="data">6</td>
+                <td class="data">54</td>
+                <td class="data">18</td>
+                <td class="data">54</td>
+                <td class="data">36</td>
+              </tr>
+              <tr>
+                <td class="test">Datenbereitstellung (Kosten)</td>
+                <td class="data">9</td>
+                <td class="data">81</td>
+                <td class="data">27</td>
+                <td class="data">27</td>
+                <td class="data">81</td>
+              </tr>
+              <tr>
+                <td class="test">Visualisierung (durch den Nutzer)</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+              </tr>
+              <tr>
+                <td class="test">Rasterwerte abfragen (durch den Nutzer)</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+              </tr>
+              <tr>
+                <td class="test">Interoperabilität (der Standards)</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+              </tr>
+              <tr>
+                <td colspan="2">Gesamtwert</td>
+                <td class="data">180</td>
+                <td class="data">162</td>
+                <td class="data">198</td>
+                <td class="data">225</td>
+              </tr>
+            </table>
+          </section>
+          
+          <section>
+            <h3>Tiefbau-Dokumentation</h3>
+            <table class="tabelle">
+              <tr>
+                <th>Kriterium</th>
+                <th>Faktor</th>
+                <th>TMS</th>
+                <th>WMS</th>
+                <th>WMTS</th>
+                <th>COG</th>
+              </tr>
+              <tr>
+                <td class="test">Datenaufarbeitung (Dauer)</td>
+                <td class="data">1</td>
+                <td class="data">3</td>
+                <td class="data">9</td>
+                <td class="data">9</td>
+                <td class="data">6</td>
+              </tr>
+              <tr>
+                <td class="test">Datenbereitstellung (Dauer)</td>
+                <td class="data">1</td>
+                <td class="data">3</td>
+                <td class="data">6</td>
+                <td class="data">6</td>
+                <td class="data">9</td>
+              </tr>
+              <tr>
+                <td class="test">Datenabruf (Dauer)</td>
+                <td class="data"> 6</td>
+                <td class="data">54</td>
+                <td class="data">18</td>
+                <td class="data">54</td>
+                <td class="data">36</td>
+              </tr>
+              <tr>
+                <td class="test">Datenbereitstellung (Kosten)</td>
+                <td class="data">1</td>
+                <td class="data">9</td>
+                <td class="data">3</td>
+                <td class="data">3</td>
+                <td class="data">9</td>
+              </tr>
+              <tr>
+                <td class="test">Visualisierung (durch den Nutzer)</td>
+                <td class="data">9</td>
+                <td class="data">0</td>
+                <td class="data">54</td>
+                <td class="data">54</td>
+                <td class="data">81</td>
+              </tr>
+              <tr>
+                <td class="test">Rasterwerte abfragen (durch den Nutzer)</td>
+                <td class="data">9</td>
+                <td class="data">0</td>
+                <td class="data">54</td>
+                <td class="data">54</td>
+                <td class="data">81</td>
+              </tr>
+              <tr>
+                <td class="test">Interoperabilität (der Standards)</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+                <td class="data">0</td>
+              </tr>
+              <tr>
+                <td colspan="2">Gesamtwert</td>
+                <td class="data">69</td>
+                <td class="data">144</td>
+                <td class="data">180</td>
+                <td class="data">222</td>
+              </tr>
+            </table>
+          </section>
+
+          <section>
+            <aside class="notes">
+              GDAL - Beschleunigung von TMS Notebook von 17:30 auf 12:13 bzw neue Workstation von 07:59 auf 01:45<br> 
+              OpenLayers - Abfragen von RawValues eines COG
+            </aside>
+            <h2>Zusammenfassung</h2>
+            <ul>
+              <li>Unterschiedlichste Anwendungsfälle</li>
+              <ul>
+                <li>Referenzprojekt eines Drohnenpiloten</li>
+                <li>Datenprovider</li>
+                <li>Tiefbau-Dokumentation</li>
+              </ul>
+              <li class="fragment fade-in">neue Versionen seit Abgabe</li>
+              <ul>
+                <li class="fragment fade-in">GDAL 3.4.2 - 08.03.2022</li>
+                <li class="fragment fade-in">OpenLayers v6.13.0 - 27.02.2022</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section>
+            <aside class="notes">
+              Neue Version OpenLayers Viel Arbeit - Upgrade - Testen - BugFixing
+            </aside>
+            <img src="assets/img/END_160-features.png">
+          </section>
+
+        </section>
+
 
 			</div>
 		</div>
@@ -338,13 +817,6 @@ COGLayer.getSource().setAttributions('Institut für Geoinformation und Vermessun
 				hash: true,
 				preloadIframes: false,
 				slideNumber: true,
-
-				dependencies : [
-					// Chart.min.js
-					{ src: 'plugin/chartjs/Chart.min.js'},
-					// the plugin
-					{ src: 'plugin/chartjs/charted.js'}
-				],
 
 				// Learn about plugins: https://revealjs.com/plugins/
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]

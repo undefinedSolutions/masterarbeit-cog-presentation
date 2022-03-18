@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Masterarbeit - Mike Wunderlich</title>
+    <!-- chartsJS -->
+    <script src="./../../js/chart.js"></script>
+	</head>
+	<body>
+
+  <canvas id="myChart" width="400" height="100"></canvas>
+  <script>
+    function getSecounds(hms) {
+      const a = hms.split(':')
+      return (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]); 
+    }
+
+    function getHHMMSS(secounds) {
+      const zeroPad = (num, places) => String(num).padStart(places, '0')
+
+      let tmpSec = secounds
+      const h = Math.trunc(tmpSec / 60 / 60);
+      tmpSec = tmpSec - h * 60 * 60
+      const m = Math.trunc(tmpSec / 60 )
+      tmpSec = tmpSec - m * 60
+
+      return zeroPad(h, 2)+":"+zeroPad(m,2)+":"+zeroPad(tmpSec,2)
+    }
+
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ["DSM Lindenrain", "DSM Strenzfeld", "Ortho Lindenrain", "Ortho Strenzfeld", "Durchschnitt"],
+        datasets: [
+          {
+              label: 'TMS',
+              data: [getSecounds('00:00:48'), getSecounds('00:00:58'), getSecounds('00:10:05'), getSecounds('00:13:01'), getSecounds('00:06:13')],
+              borderColor: 'rgba(38, 222, 129, 1.0)',
+              borderWidth: 1,
+              backgroundColor: 'rgba(38, 222, 129, 0.6)',
+          },
+          {
+              label: 'WMS',
+              data: [getSecounds('00:00:04'),getSecounds('00:00:07'),getSecounds('00:01:17'),getSecounds('00:03:18'), getSecounds('00:01:12')],
+              borderColor: 'rgba(165, 94, 234, 1.0)',
+              borderWidth: 1,
+              backgroundColor: 'rgba(165, 94, 234, 0.6)',
+          },
+          {
+              label: 'COG',
+              data: [getSecounds('00:00:10'), getSecounds('00:01:00'), getSecounds('00:06:18'), getSecounds('00:05:28'), getSecounds('00:03:14')],
+              borderColor: 'rgba(254, 211, 48, 1.0)',
+              borderWidth: 1,
+              backgroundColor: 'rgba(254, 211, 48, 0.6)',
+          },
+        ]
+      },
+      options: {
+        scales: {
+          y: {
+            max: 1200,
+            beginAtZero: true,
+            ticks: {
+
+              stepSize: this.setSize,
+              // Include a dollar sign in the ticks
+              callback: (value, index, ticks) => {
+                  return value + ' s';
+              }
+            }
+          }
+        },
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                  let label = context.dataset.label || '';
+                  label += ' ' + getHHMMSS(context.parsed.y);
+                  return label;
+              }
+            }
+          },
+          title: {
+              display: true,
+              text: 'Dauer der Generierung (Workstation)'
+          }
+        }
+      }
+    });
+  </script>
+  </body>
+</html>

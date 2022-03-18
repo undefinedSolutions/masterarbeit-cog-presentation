@@ -1,4 +1,16 @@
-
+.test {
+  font-size: 25px;
+}
+.reveal table.tabelle th {
+  background: #d3d3d3;
+}
+.reveal table.tabelle th, .reveal table.tabelle td {
+  padding: 0.1em 0.125em 0.1em 0.125em;
+  border:1px solid black;
+}
+.reveal table.tabelle tbody tr:last-child td {
+  border:1px solid black;
+}
 .reveal .controls {
   bottom: 36px;
 }
